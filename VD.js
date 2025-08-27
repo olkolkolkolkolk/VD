@@ -126,6 +126,15 @@ function showResults() {
       message = "Test terminé !";
   }
 
+  // Cacher toutes les questions
+  for (let i = 1; i <= totalQuestions; i++) {
+    const q = document.getElementById("q" + i);
+    if (q) q.style.display = "none";
+  }
+  
+  // Stocker le message dans localStorage
+  localStorage.setItem('vd_test_message', message);
+
 // Ajouter un div résultat sous les questions
   const container = document.getElementById("questions");
 
@@ -142,14 +151,33 @@ function showResults() {
     resultDiv.id = "result";
     container.appendChild(resultDiv);
   }
-  resultDiv.innerHTML = `<h2>Aoutch ! Au final, la question ne se pose pas : vous venez de recevoir un message. Elle n’a pas été séduite et vous envoie un message exprimant son désintérêt. Heureusement, grâce à votre superbe équipe de bibliothécaires, vous ne passerez pas votre soirée seule : un super DVD vous tiendra compagnie ! Curieux de connaître votre match ? Cliquez ici ! </h2>`;
+  resultDiv.innerHTML = `<h2>Aoutch ! Au final, la question ne se pose pas : vous venez de recevoir un message. Elle n’a pas été séduite et vous envoie un message exprimant son désintérêt. Heureusement, grâce à votre superbe équipe de bibliothécaires, vous ne passerez pas votre soirée seule : un super DVD vous tiendra compagnie ! Curieux de connaître votre match ? Cliquez ici ! </h2>`; 
 
+  // Modifier le bouton pour devenir "Cliquez ici"
+const btn = document.querySelector("button");
+btn.textContent = "Cliquez ici";
+
+// Au clic, afficher le profil du joueur et cacher le message d’intro
+btn.onclick = function() {
+  // Cacher le message d’intro (le <h2>)
+  const intro = resultDiv.querySelector("h2");
+  if (intro) {
+    intro.style.display = "none";
+  }
+
+  // Afficher le profil personnalisé dans un <p>
+  let profile = resultDiv.querySelector("p");
+  if (!profile) {
+    profile = document.createElement("p");
+    resultDiv.appendChild(profile);
+  }
+  profile.innerHTML = message;
+  
   // Modifier le bouton
   const btn = document.querySelector("button");
   btn.textContent = "Restart";
   btn.onclick = restartTest;
 }
-
 
 function restartTest() {
   currentQuestion = 1;
@@ -177,4 +205,5 @@ function restartTest() {
   const btn = document.querySelector("button");
   btn.textContent = "Next Question";
   btn.onclick = next;
+}
 }
