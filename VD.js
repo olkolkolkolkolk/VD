@@ -142,7 +142,7 @@ function showResults() {
     resultDiv.id = "result";
     container.appendChild(resultDiv);
   }
-  resultDiv.innerHTML = `<h2>Aoutch ! Au final, la question ne se pose pas : vous venez de recevoir un message. Elle n’a pas été séduite et vous envoie un message exprimant son désintérêt. Heureusement, grâce à votre superbe équipe de bibliothécaires, vous ne passerez pas votre soirée seule : un super DVD vous tiendra compagnie ! Curieux de connaître votre match ? Cliquez ici ! </h2><p>${message}</p>`;
+  resultDiv.innerHTML = `<h2>Aoutch ! Au final, la question ne se pose pas : vous venez de recevoir un message. Elle n’a pas été séduite et vous envoie un message exprimant son désintérêt. Heureusement, grâce à votre superbe équipe de bibliothécaires, vous ne passerez pas votre soirée seule : un super DVD vous tiendra compagnie ! Curieux de connaître votre match ? Cliquez ici ! </h2>`;
 
   // Modifier le bouton
   const btn = document.querySelector("button");
