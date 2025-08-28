@@ -1,127 +1,97 @@
-/* Reset et style de base */
+/* Police principale */
 body {
+  margin: 0;
+  padding: 0;
   font-family: 'PT Sans', 'Inter', sans-serif;
   background-color: #1e1e1e;
-  color: #fff;
-  margin: 0;
-  padding: 40px 20px;
+  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
-/* Container principal avec flexbox */
-#questions-container {
-  display: flex;
-  max-width: 1100px;
-  width: 100%;
+/* Section centrale */
+.section {
+  text-align: center;
+  padding: 40px;
   background: linear-gradient(145deg, #2b0000, #4d0000);
   border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-  overflow: hidden;
-}
-
-/* Partie texte + bouton à gauche */
-#questions {
-  flex: 1;
-  padding: 40px 60px 40px 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  background: rgba(30, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
-  border-radius: 16px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 0 10px rgba(255, 77, 77, 0.1);
-}
-
-/* Titres questions */
-#questions > div {
-  margin-bottom: 30px;
-}
-
-#questions h3 {
-  font-size: 1.5em;
-  color: #ff4d4d;
-  font-weight: 700;
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  box-shadow: inset 0 0 10px rgba(255, 77, 77, 0.1);
-}
-
-input[type="radio"] {
-  appearance: none;
-  background-color: #fff;
-  
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: inline-block;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  max-width: 800px;
+  width: 90%;
   position: relative;
-  margin-right: 10px;
-  cursor: pointer;
-  vertical-align: middle;
-  transition: background-color 0.3s ease;
 }
 
-input[type="radio"]:checked {
-  background: url('data:image/svg+xml;utf8,<svg fill="%23ff4d4d" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3 9.24 3 10.91 3.81 12 5.09 13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center center;
-  background-size: 16px 16px;
-  border-color: #ff4d4d;
-  background-color: transparent;
+/* Titre principal */
+.h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  line-height: 1.4;
+  color: #ffffff;
 }
 
+/* Bouton "Match" stylisé comme un élément central */
+.btn {
+  font-family: "Great Vibes", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2.2em;
+  text-decoration: none;
+  color: #ff4d4d;
+  border-bottom: 2px solid #ff4d4d;
+  transition: all 0.3s ease;
+}
 
-/* Bouton Next sous les questions */
-button {
-  align-self: flex-start; /* à gauche */
-  margin-top: 20px;
+.btn:hover {
+  color: #ffffff;
   background-color: #ff4d4d;
-  border: none;
-  color: white;
-  font-size: 1.3em;
-  font-weight: 700;
-  padding: 15px 40px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 15px #ff4d4daa;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
-button:hover {
-  background-color: #e04343;
-  box-shadow: 0 6px 20px #ff4d4dcc;
+/* Style des mains (si tu les ajoutes en SVG ou image plus tard) */
+.hand-left, .hand-right {
+  position: absolute;
+  width: 100px;
+  opacity: 0.5;
 }
 
-/* Partie image à droite - taille fixe et verticale */
-#image-side {
-  width: 350px;
-  background: url('https://aventurearctique.com/tirages/wp-content/uploads/2019/09/2019__9F28698BD-600x899.jpg') no-repeat center center;
-  background-size: cover;
-  border-left: 5px solid #ff4d4d;
+.hand-left {
+  top: 20%;
+  left: -40px;
+  transform: rotate(10deg);
 }
 
-/* Responsive : empilement vertical */
-@media (max-width: 900px) {
-  #questions-container {
-    flex-direction: column;
+.hand-right {
+  top: 20%;
+  right: -40px;
+  transform: rotate(-10deg);
+}
+
+/* Effet film / cinéma */
+.section::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: 5px solid rgba(255, 77, 77, 0.2);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .h1 {
+    font-size: 1.8em;
   }
 
-  #image-side {
-    width: 100%;
-    height: 250px;
-    border-left: none;
-    border-top: 5px solid #ff4d4d;
-    background-position: center top;
+  .btn {
+    font-size: 1.5em;
   }
 
-  #questions {
-    padding: 30px 20px;
+  .hand-left, .hand-right {
+    display: none;
   }
-
-  
 }
+
