@@ -2,7 +2,7 @@ let currentQuestion = 1; // on commence à la question 1
 
 function next() {
   // Vérifier si une réponse est sélectionnée pour la question actuelle
-  const radios = document.getElementsByName("question" + (currentQuestion - 1));
+  const radios = document.getElementsByName("question" + currentQuestion);
   let answered = false;
   for (const radio of radios) {
     if (radio.checked) {
@@ -76,21 +76,49 @@ function next() {
 }
 
 function showResults() {
-  // Compter les réponses
+  // Initialiser le compteur pour chaque lettre
   const counts = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, G: 0, H: 0, I: 0 };
+
+  // Parcourir chaque réponse (qui peut contenir plusieurs lettres séparées par des virgules)
   for (const ans of answers) {
-    counts[ans]++;
+    // Découper la chaîne en lettres individuelles et enlever les espaces
+    const letters = ans.split(",").map(l => l.trim());
+
+    for (const letter of letters) {
+      if (counts.hasOwnProperty(letter)) {
+        counts[letter]++;
+      } else {
+        console.warn("Réponse inconnue détectée :", letter);
+      }
+    }
   }
 
-  // Trouver la réponse la plus fréquente
+  console.log("Comptage :", counts);
+
+  // Trouver la ou les lettres les plus fréquentes
   let maxCount = 0;
-  let maxLetter = null;
+  let maxLetters = [];
+
   for (const letter in counts) {
     if (counts[letter] > maxCount) {
       maxCount = counts[letter];
-      maxLetter = letter;
+      maxLetters = [letter]; // on remplace la liste
+    } else if (counts[letter] === maxCount && maxCount > 0) {
+      maxLetters.push(letter); // on ajoute à la liste
     }
   }
+
+  console.log("Max count :", maxCount);
+  console.log("Lettres max :", maxLetters);
+
+  // Si aucune réponse sélectionnée ou maxCount = 0, afficher un message par défaut
+  if (maxCount === 0) {
+    alert("Vous n'avez sélectionné aucune réponse valide.");
+    return;
+  }
+
+  // Choisir une lettre aléatoire parmi celles à égalité
+  let maxLetter = maxLetters[Math.floor(Math.random() * maxLetters.length)];
 
   // Message personnalisé selon la lettre dominante
   let message = "";
@@ -99,7 +127,7 @@ function showResults() {
       message = "Vous êtes une personne rêveuse et romantique. Du style à chercher l’amour avec un grand A, un amour fort et surtout solide, un amour qui dure. Vous voulez grandir avec votre moitié, vieillir avec elle et finir votre vie tranquillement, chaussons aux pieds, main dans la main avec votre partenaire. Mais cette envie, cet espoir d’une histoire pareille, est ternie par un sentiment de décalage : l’amour intemporel, c’est beau mais également dur à trouver. <br> Alors pourquoi ne pas tenter <a href='https://urlr.me/ZKtkWh' target='_blank' rel='noopener noreferrer' style='color:#ff4d4d; text-decoration:underline;'> L'Étrange Histoire de Benjamin Button </a> ? L’histoire improbable, touchante et tragique d’un homme qui naquit à 80 ans et vécu sa vie à l’envers." ;
       break;
     case "B":
-      message = "L’amour, un grand mot et bien peu d’explications. C’est un but, un sentiment que vous chassez, l’occasion pour vous de sortir d’une solitude qui vous oppresse. Mais le souci c’est que personne ne vous a jamais donné les codes : comment faire ? Pour trouver la bonne personne, pour attirer son attention, pour la garder ? Une multitude de questions, mais bien peu de réponses, vous laissant avec le sentiment d’être perdu et de ne pas comprendre comment fonctionne l’Amour" <br> "Le personnage principal de <a href='https://urlr.me/DVB5XW' target='_blank' rel='noopener noreferrer' style='color:#ff4d4d; text-decoration:underline;'> Her </a>, Theodore, ressentait la même chose : cela a abouti à l’acquisition de Samantha, une intelligence artificielle avec laquelle Theodore, va pouvoir tromper sa solitude.";
+      message = "L’amour, un grand mot et bien peu d’explications. C’est un but, un sentiment que vous chassez, l’occasion pour vous de sortir d’une solitude qui vous oppresse. Mais le souci c’est que personne ne vous a jamais donné les codes : comment faire ? Pour trouver la bonne personne, pour attirer son attention, pour la garder ? Une multitude de questions, mais bien peu de réponses, vous laissant avec le sentiment d’être perdu et de ne pas comprendre comment fonctionne l’Amour. <br> Le personnage principal de <a href='https://urlr.me/DVB5XW' target='_blank' rel='noopener noreferrer' style='color:#ff4d4d; text-decoration:underline;'> Her </a>, Theodore, ressentait la même chose : cela a abouti à l’acquisition de Samantha, une intelligence artificielle avec laquelle Theodore, va pouvoir tromper sa solitude.";
       break;
     case "C":
       message = "Une sensation d’être différent, trop en décalage pour trouver quelqu’un qui vous ressemble et, plus important encore, qui vous comprenne. Une sensation de solitude, mêlée à une envie d’ailleurs et un romantisme timide : ça vous parle ? Car, d’après le test, cela devrait vous ressembler. » <br> « Et c’est également le cas d’Elisa, dans <a href=' https://urlr.me/ND7sdp' target='_blank' rel='noopener noreferrer' style='color:#ff4d4d; text-decoration:underline;'> La forme de l’eau </a>. Femme de ménage muette dans un laboratoire gouvernemental ultra-secret, elle vit une existence des plus solitaires. Jusqu’à la capture d’une créature étrange, un humanoide amphibien, avec qui elle établit le contact et auquel elle va s’attacher de plus en plus.";
@@ -117,14 +145,12 @@ function showResults() {
       message = "Les histoires ennuyeuses, très peu pour vous. Votre vie de couple doit être pimentée, que dis-je, explosive ! Vous avez besoin de rire, d’enchainer les situations improbables avec votre moitié, d’avoir un million d’anecdotes à raconter et bien plus d’aventures futures à partager. <br> Alors, pourquoi ne pas vous divertir en regardant <a href=' https://urlr.me/eRu3FJ' target='_blank' rel='noopener noreferrer' style='color:#ff4d4d; text-decoration:underline;'> Mr et Mrs Smith </a> ? La vie de couple de deux tueurs à gage travaillant pour des entreprises différentes et dissimulant leur profession à leur moitié. ";
       break;
     case "H":
-      message = " Ce n’est pas vraiment le moment de vous parler d’amour, hein ? Vous êtes plutôt désabusé à ce sujet, trop de déceptions, vous n’avez plus la patience pour ces bêtises. <br> Alors que diriez vous d’un bon condensé de manipulations, de faux-semblants, d’amour vache et de retour de karma ? Rassurez vous avec <a href='https://urlr.me/fD29mq',QueryString:'gone%20girl',ResultSize:10,ScenarioCode:'CATA%20TOUL',ScenarioDisplayMode:display-standard,SearchGridFieldsShownOnResultsDTO:!(),SearchLabel:'',SearchTerms:'gone%20girl',SortField:!n,SortOrder:0,TemplateParams:(Scenario:'',Scope:TOULON,Size:!n,Source:'',Support:'',UseCompact:!f),UseSpellChecking:!n)))' target='_blank' rel='noopener noreferrer' style='color:#ff4d4d; text-decoration:underline;'> Gone Girl </a> nulle mièvrerie ne vous fera lever les yeux au ciel, le déroulé sera même plutôt cathartique. ";
-
+      message = " Ce n’est pas vraiment le moment de vous parler d’amour, hein ? Vous êtes plutôt désabusé à ce sujet, trop de déceptions, vous n’avez plus la patience pour ces bêtises. <br> Alors que diriez vous d’un bon condensé de manipulations, de faux-semblants, d’amour vache et de retour de karma ? Rassurez vous avec <a href='https://urlr.me/fD29mq' target='_blank' rel='noopener noreferrer' style='color:#ff4d4d; text-decoration:underline;'> Gone Girl </a> nulle mièvrerie ne vous fera lever les yeux au ciel, le déroulé sera même plutôt cathartique. ";
       break;
     case "I":
       message = "Le romantique de service, le timide tout gêné et maladroit, c’était vous il y a encore peu, n’est-ce pas ? Depuis vous avez grandi, appris à vous maitriser, mais vous gardez ce don de vous retrouver dans des situations rocambolesques, bon gré mal gré, dès que l’amour est impliqué. <br>  C’est également le cas de Ted dans <a href=' https://urlr.me/ctjSGu' target='_blank' rel='noopener noreferrer' style='color:#ff4d4d; text-decoration:underline;'> Mary à tout prix </a>: tombé amoureux de Mary lorsqu’ils étaient au lycée,   il n’a jamais pu lui déclarer sa flamme, et ne s’en est jamais remis. Alors, 13 ans plus tard, il décide d’engager un détective privé pour la retrouver et enfin lui déclarer sa flamme. Un plan mis à mal par le fait que le détective tombe lui aussi amoureux de Mary… et que d’autres admirateurs s’en mêlent. ";
       break;
     default:
-
       message = "Test terminé !";
   }
 
@@ -133,9 +159,9 @@ function showResults() {
     const q = document.getElementById("q" + i);
     if (q) q.style.display = "none";
   }
-  
+
   // Stocker le message dans localStorage
-  localStorage.setItem('vd_test_message', message);
+  localStorage.setItem('vd_test_message', message); 
 
 // Ajouter un div résultat sous les questions
   const container = document.getElementById("questions");
@@ -157,7 +183,7 @@ function showResults() {
 
   // Modifier le bouton pour devenir "Cliquez ici"
 const btn = document.querySelector("button");
-btn.textContent = "Cliquez ici";
+btn.textContent = "Découvrez-le en cliquant ici !";
 
 // Au clic, afficher le profil du joueur et cacher le message d’intro
 btn.onclick = function() {
